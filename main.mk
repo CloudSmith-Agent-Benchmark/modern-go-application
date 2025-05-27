@@ -26,7 +26,7 @@ endif
 
 # Dependency versions
 GOTESTSUM_VERSION ?= 0.4.2
-GOLANGCI_VERSION ?= 1.27.0
+GOLANGCI_VERSION ?= 1.55.2
 
 GOLANG_VERSION ?= 1.14
 
@@ -150,7 +150,7 @@ bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION}
 	@ln -sf golangci-lint-${GOLANGCI_VERSION} bin/golangci-lint
 bin/golangci-lint-${GOLANGCI_VERSION}:
 	@mkdir -p bin
-	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint bash -s -- v${GOLANGCI_VERSION}
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b bin v${GOLANGCI_VERSION}
 	@mv bin/golangci-lint $@
 
 .PHONY: lint
