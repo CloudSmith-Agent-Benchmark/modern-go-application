@@ -16,7 +16,7 @@ jobs:
     env:
       VERBOSE: 1
       GOFLAGS: -mod=readonly
-      COVERAGE_THRESHOLD: 25
+      COVERAGE_THRESHOLD: 35
 
     steps:
       - name: Set up Go
