@@ -10,7 +10,7 @@ type LogEventHandler struct {
 }
 
 // NewLogEventHandler returns a new LogEventHandler instance.
-func NewLogEventHandler(logger Logger) LogEventHandler {
+NewLogEventHandler(logger Logger) LogEventHandler {
 	return LogEventHandler{
 		logger: logger,
 	}
