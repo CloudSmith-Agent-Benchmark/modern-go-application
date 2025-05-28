@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	//nolint
 	_ "net/http/pprof" // register pprof HTTP handlers #nosec
 	"os"
 	"os/signal"
@@ -50,7 +51,7 @@ import (
 )
 
 // Provisioned by ldflags
-// nolint: gochecknoglobals
+//nolint: gochecknoglobals
 var (
 	version    string
 	commitHash string
@@ -89,7 +90,7 @@ func main() {
 	}
 
 	err := v.ReadInConfig()
-	_, configFileNotFound := err.(viper.ConfigFileNotFoundError)
+	_, configFileNotFound := errors.As(err, &viper.ConfigFileNotFoundError{})
 	if !configFileNotFound {
 		emperror.Panic(errors.Wrap(err, "failed to read configuration"))
 	}
@@ -202,8 +203,9 @@ func main() {
 		emperror.Panic(err)
 
 		server := &http.Server{
-			Handler:  telemetryRouter,
-			ErrorLog: log.NewErrorStandardLogger(logger),
+			Handler:           telemetryRouter,
+			ErrorLog:          log.NewErrorStandardLogger(logger),
+			ReadHeaderTimeout: 10 * time.Second,
 		}
 		defer server.Close()
 
@@ -293,7 +295,8 @@ func main() {
 				},
 				IsPublicEndpoint: true,
 			},
-			ErrorLog: log.NewErrorStandardLogger(logger),
+			ErrorLog:          log.NewErrorStandardLogger(logger),
+			ReadHeaderTimeout: 10 * time.Second,
 		}
 		defer httpServer.Close()
 

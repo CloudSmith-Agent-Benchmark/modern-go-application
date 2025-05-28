@@ -49,7 +49,7 @@ func InitializeApp(
 	storage string,
 	db *sql.DB,
 	logger Logger,
-	errorHandler ErrorHandler, // nolint: interfacer
+	errorHandler ErrorHandler, //nolint: interfacer
 ) {
 	endpointMiddleware := []endpoint.Middleware{
 		correlation.Middleware(),

@@ -10,8 +10,15 @@ import (
 )
 
 func TestLogger(t *testing.T) {
-	t.Run("WithFields", testLoggerWithFields)
-	t.Run("WithContext", testLoggerWithContext)
+	t.Parallel()
+	t.Run("WithFields", func(t *testing.T) {
+		t.Parallel()
+		testLoggerWithFields(t)
+	})
+	t.Run("WithContext", func(t *testing.T) {
+		t.Parallel()
+		testLoggerWithContext(t)
+	})
 
 	suite := conformance.TestSuite{
 		LoggerFactory: func(level logur.Level) (logur.Logger, conformance.TestLogger) {
@@ -20,11 +27,18 @@ func TestLogger(t *testing.T) {
 			return NewLogger(testLogger), testLogger
 		},
 	}
-	t.Run("Conformance", suite.Run)
+	t.Run("Conformance", func(t *testing.T) {
+		t.Parallel()
+		suite.Run(t)
+	})
 }
 
 func TestContextAwareLogger(t *testing.T) {
-	t.Run("WithContext", testContextAwareLoggerWithContext)
+	t.Parallel()
+	t.Run("WithContext", func(t *testing.T) {
+		t.Parallel()
+		testContextAwareLoggerWithContext(t)
+	})
 
 	suite := conformance.TestSuite{
 		LoggerFactory: func(level logur.Level) (logur.Logger, conformance.TestLogger) {
@@ -38,7 +52,10 @@ func TestContextAwareLogger(t *testing.T) {
 			), testLogger
 		},
 	}
-	t.Run("Conformance", suite.Run)
+	t.Run("Conformance", func(t *testing.T) {
+		t.Parallel()
+		suite.Run(t)
+	})
 }
 
 func testLoggerWithFields(t *testing.T) {

@@ -4,15 +4,15 @@ import (
 	"context"
 	"testing"
 
+	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo"
+	"github.com/sagikazarmark/modern-go-application/internal/common/commonadapter"
 	"github.com/stretchr/testify/require"
 	"logur.dev/logur"
 	"logur.dev/logur/logtesting"
-
-	. "github.com/sagikazarmark/modern-go-application/internal/app/mga/todo"
-	"github.com/sagikazarmark/modern-go-application/internal/common/commonadapter"
 )
 
 func TestLogEventHandler_MarkedAsComplete(t *testing.T) {
+	t.Parallel()
 	logger := &logur.TestLoggerFacade{}
 
 	eventHandler := NewLogEventHandler(commonadapter.NewLogger(logger))

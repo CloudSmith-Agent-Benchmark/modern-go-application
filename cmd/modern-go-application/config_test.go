@@ -10,6 +10,7 @@ import (
 )
 
 func TestConfigure(t *testing.T) {
+	t.Parallel()
 	var config configuration
 
 	v := viper.New()

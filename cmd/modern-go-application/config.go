@@ -68,8 +68,8 @@ func (c configuration) Validate() error {
 
 // appConfig represents the application related configuration.
 type appConfig struct {
+	//nolint: golint, stylecheck
 	// HTTP server address
-	// nolint: golint, stylecheck
 	HttpAddr string
 
 	// GRPC server address

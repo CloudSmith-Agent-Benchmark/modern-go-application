@@ -2,7 +2,8 @@ package command
 
 import (
 	"context"
-	"fmt"
+	"log"
+	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -52,13 +53,14 @@ func runCreate(options createOptions) error {
 	if err != nil {
 		st := status.Convert(err)
 		for _, detail := range st.Details() {
-			// nolint: gocritic
+			//nolint: gocritic
 			switch t := detail.(type) {
 			case *errdetails.BadRequest:
-				fmt.Println("Oops! Your request was rejected by the server.")
+				logger := log.New(os.Stderr, "", 0)
+				logger.Println("Oops! Your request was rejected by the server.")
 				for _, violation := range t.GetFieldViolations() {
-					fmt.Printf("The %q field was wrong:\n", violation.GetField())
-					fmt.Printf("\t%s\n", violation.GetDescription())
+					logger.Printf("The %q field was wrong:\n", violation.GetField())
+					logger.Printf("\t%s\n", violation.GetDescription())
 				}
 			}
 		}
@@ -66,7 +68,8 @@ func runCreate(options createOptions) error {
 		return err
 	}
 
-	fmt.Printf("Todo item %q with ID %s has been created.", options.title, resp.GetItem().GetId())
+	logger := log.New(os.Stdout, "", 0)
+	logger.Printf("Todo item %q with ID %s has been created.", options.title, resp.GetItem().GetId())
 
 	return nil
 }

@@ -3,10 +3,11 @@ package database
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestConfig_Validate(t *testing.T) {
+	t.Parallel()
 	tests := map[string]Config{
 		"database host is required": {
 			Port: 3306,
@@ -38,14 +39,16 @@ func TestConfig_Validate(t *testing.T) {
 		name, test := name, test
 
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			err := test.Validate()
 
-			assert.EqualError(t, err, name)
+			require.EqualError(t, err, name)
 		})
 	}
 }
 
 func TestConfig_DSN(t *testing.T) {
+	t.Parallel()
 	config := Config{
 		Host: "host",
 		Port: 3306,

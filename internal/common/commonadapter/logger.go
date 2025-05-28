@@ -3,9 +3,8 @@ package commonadapter
 import (
 	"context"
 
-	"logur.dev/logur"
-
 	"github.com/sagikazarmark/modern-go-application/internal/common"
+	"logur.dev/logur"
 )
 
 // Logger wraps a logur logger and exposes it under a custom interface.
