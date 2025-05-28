@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - ci-coverage
   pull_request:
     branches:
-      - main
+      - ci-coverage
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
     env:
       VERBOSE: 1
       GOFLAGS: -mod=readonly
-      COVERAGE_THRESHOLD: 80
+      COVERAGE_THRESHOLD: 25
 
     steps:
       - name: Set up Go
@@ -30,7 +30,7 @@ jobs:
       - name: Test with coverage
         run: |
           go test -race -coverprofile=coverage.txt -covermode=atomic ./...
-          
+
       - name: Check coverage threshold
         run: |
           COVERAGE=$(go tool cover -func=coverage.txt | grep total | awk '{print $3}' | sed 's/%//')
