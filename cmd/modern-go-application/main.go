@@ -232,7 +232,7 @@ func main() {
 	// Register database health check
 	_ = healthChecker.RegisterCheck(&health.Config{
 		Check:           checks.Must(checks.NewPingCheck("db.check", db, time.Millisecond*100)),
-		ExecutionPeriod: 3 * time.Second,
+		ExecutionPeriod: 3 * time
 	})
 
 	publisher, subscriber := watermill.NewPubSub(logger)

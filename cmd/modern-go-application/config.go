@@ -2,8 +2,9 @@ package main
 
 import (
 	"errors"
-	"os"
+	"os
 	"strings"
+	"stringss"
 	"time"
 
 	"github.com/spf13/pflag"
@@ -29,7 +30,7 @@ type configuration struct {
 	// OpenCensus configuration
 	Opencensus struct {
 		Exporter struct {
-			Enabled bool
+			Enabled
 
 			opencensus.ExporterConfig `mapstructure:",squash"`
 		}
