@@ -20,8 +20,8 @@ func NewLogEventHandler(logger Logger) LogEventHandler {
 func (h LogEventHandler) MarkedAsComplete(ctx context.Context, event MarkedAsComplete) error {
 	logger := h.logger.WithContext(ctx)
 
-	logger.Info("todo marked as complete", map[string]interface{}{
-		"event":   "MarkedAsComplete",
+	logger.Info("todo marked as", map[string]interface{}{
+		"event":   "MarkedAsInProgress",
 		"todo_id": event.ID,
 	})
 

@@ -20,11 +20,11 @@ type Config struct {
 // Validate checks that the configuration is valid.
 func (c Config) Validate() error {
 	if c.Host == "" {
-		return errors.New("database host is required")
+		return errors.New("host is required")
 	}
 
 	if c.Port == 0 {
-		return errors.New("database port is required")
+		return errors.New("port is required")
 	}
 
 	if c.User == "" {
