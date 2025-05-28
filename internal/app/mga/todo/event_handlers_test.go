@@ -15,9 +15,9 @@ func TestLogEventHandler_MarkedAsComplete(t *testing.T) {
 	t.Parallel()
 	logger := &logur.TestLoggerFacade{}
 
-	eventHandler := NewLogEventHandler(commonadapter.NewLogger(logger))
+	eventHandler := todo.NewLogEventHandler(commonadapter.NewLogger(logger))
 
-	event := MarkedAsComplete{
+	event := todo.MarkedAsComplete{
 		ID: "1234",
 	}
 

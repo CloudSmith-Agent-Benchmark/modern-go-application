@@ -90,7 +90,7 @@ func main() {
 	}
 
 	err := v.ReadInConfig()
-	_, configFileNotFound := errors.As(err, &viper.ConfigFileNotFoundError{})
+	configFileNotFound := errors.As(err, &viper.ConfigFileNotFoundError{})
 	if !configFileNotFound {
 		emperror.Panic(errors.Wrap(err, "failed to read configuration"))
 	}

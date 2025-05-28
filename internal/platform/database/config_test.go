@@ -62,5 +62,5 @@ func TestConfig_DSN(t *testing.T) {
 
 	dsn := config.DSN()
 
-	assert.Equal(t, "root:@tcp(host:3306)/database?parseTime=true", dsn)
+	require.Equal(t, "root:@tcp(host:3306)/database?parseTime=true", dsn)
 }

@@ -6,10 +6,9 @@ import (
 	"strconv"
 	"time"
 
+	todov1 "github.com/sagikazarmark/todobackend-go-kit/api/todo/v1"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-
-	todov1 "github.com/sagikazarmark/todobackend-go-kit/api/todo/v1"
 )
 
 type listOptions struct {
@@ -17,16 +16,15 @@ type listOptions struct {
 }
 
 // NewListCommand creates a new cobra.Command for listing todo items.
-func NewListCommand(c Context) *cobra.Command {
+func NewListCommand(context Context) *cobra.Command {
 	options := listOptions{}
 
 	cmd := &cobra.Command{
 		Use:     "list",
 		Aliases: []string{"l"},
 		Short:   "List todo items",
-		Args:    cobra.NoArgs,
-		RunE: func(cmd *cobra.Command, _ []string) error {
-			options.client = c.GetTodoClient()
+		RunE: func(cmd *cobra.Command, args []string) error {
+			options.client = context.GetTodoClient()
 
 			cmd.SilenceErrors = true
 			cmd.SilenceUsage = true
@@ -34,7 +32,6 @@ func NewListCommand(c Context) *cobra.Command {
 			return runList(options)
 		},
 	}
-	cobra.OnInitialize()
 
 	return cmd
 }
@@ -51,11 +48,17 @@ func runList(options listOptions) error {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "Title", "Completed"})
+	table.SetHeader([]string{"ID", "Title", "Completed", "Order"})
 
 	for _, item := range resp.GetItems() {
-		table.Append([]string{item.GetId(), item.GetTitle(), strconv.FormatBool(item.GetCompleted())})
+		table.Append([]string{
+			item.GetId(),
+			item.GetTitle(),
+			strconv.FormatBool(item.GetCompleted()),
+			strconv.FormatInt(item.GetOrder(), 10),
+		})
 	}
+
 	table.Render()
 
 	return nil

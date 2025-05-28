@@ -19,7 +19,7 @@ type createOptions struct {
 }
 
 // NewAddCommand creates a new cobra.Command for adding a new item to the list.
-func NewAddCommand(c Context) *cobra.Command {
+func NewAddCommand(context Context) *cobra.Command {
 	options := createOptions{}
 
 	cmd := &cobra.Command{
@@ -29,7 +29,7 @@ func NewAddCommand(c Context) *cobra.Command {
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			options.title = args[0]
-			options.client = c.GetTodoClient()
+			options.client = context.GetTodoClient()
 
 			cmd.SilenceErrors = true
 			cmd.SilenceUsage = true
@@ -44,6 +44,7 @@ func NewAddCommand(c Context) *cobra.Command {
 func runCreate(options createOptions) error {
 	req := &todov1.AddItemRequest{
 		Title: options.title,
+		Order: 0,
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)

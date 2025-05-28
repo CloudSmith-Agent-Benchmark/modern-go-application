@@ -20,7 +20,9 @@ func Configure(rootCmd *cobra.Command) {
 
 	flags.StringVar(&address, "address", "127.0.0.1:8001", "Todo service address")
 
-	c := &context{}
+	c := &context{
+		client: nil,
+	}
 
 	var grpcConn *grpc.ClientConn
 	var ocagentExporter *ocagent.Exporter

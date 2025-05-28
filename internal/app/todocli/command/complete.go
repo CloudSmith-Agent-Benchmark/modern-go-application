@@ -2,7 +2,7 @@ package command
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"github.com/golang/protobuf/ptypes/wrappers"
@@ -17,7 +17,7 @@ type markAsCompleteOptions struct {
 }
 
 // NewMarkAsCompleteCommand creates a new cobra.Command for marking a todo item as complete.
-func NewMarkAsCompleteCommand(c Context) *cobra.Command {
+func NewMarkAsCompleteCommand(context Context) *cobra.Command {
 	options := markAsCompleteOptions{}
 
 	cmd := &cobra.Command{
@@ -27,7 +27,7 @@ func NewMarkAsCompleteCommand(c Context) *cobra.Command {
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			options.todoID = args[0]
-			options.client = c.GetTodoClient()
+			options.client = context.GetTodoClient()
 
 			cmd.SilenceErrors = true
 			cmd.SilenceUsage = true
@@ -45,6 +45,8 @@ func runMarkAsComplete(options markAsCompleteOptions) error {
 		Completed: &wrappers.BoolValue{
 			Value: true,
 		},
+		Title: nil,
+		Order: 0,
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -55,7 +57,7 @@ func runMarkAsComplete(options markAsCompleteOptions) error {
 		return err
 	}
 
-	fmt.Printf("Todo item with ID %s has been marked as complete.", options.todoID)
+	log.Printf("Todo item with ID %s has been marked as complete.", options.todoID)
 
 	return nil
 }

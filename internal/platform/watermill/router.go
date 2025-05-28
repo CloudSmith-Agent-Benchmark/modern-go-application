@@ -12,7 +12,7 @@ import (
 
 // NewRouter returns a new message router for message subscription logic.
 func NewRouter(logger logur.Logger) (*message.Router, error) {
-	h, err := message.NewRouter(
+	router, err := message.NewRouter(
 		message.RouterConfig{},
 		watermilllog.New(logur.WithField(logger, "component", "watermill")),
 	)
@@ -24,7 +24,7 @@ func NewRouter(logger logur.Logger) (*message.Router, error) {
 	retryMiddleware.MaxRetries = 1
 	retryMiddleware.MaxInterval = time.Millisecond * 10
 
-	h.AddMiddleware(
+	router.AddMiddleware(
 		// if retries limit was exceeded, message is sent to poison queue (poison_queue topic)
 		retryMiddleware.Middleware,
 
@@ -36,5 +36,5 @@ func NewRouter(logger logur.Logger) (*message.Router, error) {
 		middleware.CorrelationID,
 	)
 
-	return h, nil
+	return router, nil
 }

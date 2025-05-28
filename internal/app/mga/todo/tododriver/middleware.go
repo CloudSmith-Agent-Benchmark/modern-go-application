@@ -3,11 +3,12 @@ package tododriver
 import (
 	"context"
 
-	"github.com/sagikazarmark/modern-go-application/internal/app/mga/todo"
-	"github.com/sagikazarmark/todobackend-go-kit/todo"
+	todo2 "github.com/sagikazarmark/modern-go-application/internal/app/mga/todo"
 	"go.opencensus.io/stats"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/tag"
+
+	"github.com/sagikazarmark/todobackend-go-kit/todo"
 )
 
 //nolint: gochecknoglobals,lll
@@ -15,7 +16,7 @@ import (
 var CreatedTodoItemCountView = &view.View{
 	Name:        "todo/created_count",
 	Description: "Count of todo items created",
-	Measure:     todo.CreatedTodoItemCount,
+	Measure:     todo2.CreatedTodoItemCount,
 	Aggregation: view.Count(),
 	TagKeys:     []tag.Key{},
 }
@@ -25,7 +26,7 @@ var CreatedTodoItemCountView = &view.View{
 var CompleteTodoItemCountView = &view.View{
 	Name:        "todo/completed_count",
 	Description: "Count of todo items marked as complete",
-	Measure:     todo.CompletedTodoItemCount,
+	Measure:     todo2.CompletedTodoItemCount,
 	Aggregation: view.Count(),
 	TagKeys:     []tag.Key{},
 }
@@ -50,7 +51,7 @@ func (mw InstrumentationMiddleware) Attach(next todo.Service) todo.Service {
 func (mw InstrumentationMiddleware) AddItem(ctx context.Context, newItem todo.NewItem) (todo.Item, error) {
 	id, err := mw.next.AddItem(ctx, newItem)
 	if err == nil {
-		stats.Record(ctx, todo.CreatedTodoItemCount.M(1))
+		stats.Record(ctx, todo2.CreatedTodoItemCount.M(1))
 	}
 
 	return id, err

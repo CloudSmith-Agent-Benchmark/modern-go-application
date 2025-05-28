@@ -21,6 +21,7 @@ type ContextExtractor func(ctx context.Context) map[string]interface{}
 func NewLogger(logger logur.LoggerFacade) *Logger {
 	return &Logger{
 		LoggerFacade: logger,
+		extractor:    nil,
 	}
 }
 

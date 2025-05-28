@@ -26,6 +26,7 @@ func TestLogger(t *testing.T) {
 
 			return NewLogger(testLogger), testLogger
 		},
+		NoTraceLevel: true,
 	}
 	t.Run("Conformance", func(t *testing.T) {
 		t.Parallel()
@@ -51,6 +52,7 @@ func TestContextAwareLogger(t *testing.T) {
 				},
 			), testLogger
 		},
+		NoTraceLevel: true,
 	}
 	t.Run("Conformance", func(t *testing.T) {
 		t.Parallel()
@@ -59,6 +61,7 @@ func TestContextAwareLogger(t *testing.T) {
 }
 
 func testLoggerWithFields(t *testing.T) {
+	t.Helper()
 	testLogger := &logur.TestLoggerFacade{}
 
 	fields := map[string]interface{}{
@@ -80,6 +83,7 @@ func testLoggerWithFields(t *testing.T) {
 }
 
 func testLoggerWithContext(t *testing.T) {
+	t.Helper()
 	testLogger := &logur.TestLoggerFacade{}
 
 	logger := NewLogger(testLogger).WithContext(context.Background())
@@ -89,12 +93,14 @@ func testLoggerWithContext(t *testing.T) {
 	event := logur.LogEvent{
 		Level: logur.Debug,
 		Line:  "message",
+		Fields: map[string]interface{}{},
 	}
 
 	logtesting.AssertLogEventsEqual(t, event, *(testLogger.LastEvent()))
 }
 
 func testContextAwareLoggerWithContext(t *testing.T) {
+	t.Helper()
 	testLogger := &logur.TestLoggerFacade{}
 
 	logger := NewContextAwareLogger(

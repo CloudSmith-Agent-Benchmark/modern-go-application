@@ -41,13 +41,13 @@ type eventMiddleware struct {
 	events Events
 }
 
-func (mw eventMiddleware) UpdateItem(ctx context.Context, id string, itemUpdate todo.ItemUpdate) (todo.Item, error) {
+func (mw eventMiddleware) UpdateItem(ctx context.Context, todoID string, itemUpdate todo.ItemUpdate) (todo.Item, error) {
 	var fireComplete bool
 	if itemUpdate.Completed != nil && *itemUpdate.Completed {
 		fireComplete = true
 	}
 
-	item, err := mw.next.UpdateItem(ctx, id, itemUpdate)
+	item, err := mw.next.UpdateItem(ctx, todoID, itemUpdate)
 	if err != nil {
 		return item, err
 	}
