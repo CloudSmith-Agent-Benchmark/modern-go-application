@@ -1,0 +1,43 @@
+name: CI Unit Tests With Coverage
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: TestCoverage
+    runs-on: ubuntu-latest
+    env:
+      VERBOSE: 1
+      GOFLAGS: -mod=readonly
+      COVERAGE_THRESHOLD: 80
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Test with coverage
+        run: |
+          go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+          
+      - name: Check coverage threshold
+        run: |
+          COVERAGE=$(go tool cover -func=coverage.txt | grep total | awk '{print $3}' | sed 's/%//')
+          echo "Code coverage: $COVERAGE%"
+          if (( $(echo "$COVERAGE < $COVERAGE_THRESHOLD" | bc -l) )); then
+            echo "Code coverage is below threshold: $COVERAGE% < $COVERAGE_THRESHOLD%"
+            exit 1
+          else
+            echo "Code coverage is above threshold: $COVERAGE% >= $COVERAGE_THRESHOLD%"
+          fi
