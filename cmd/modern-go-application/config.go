@@ -1,6 +1,5 @@
 package main
-
-import (
+	"os"
 	"errors"
 	"os
 	"strings"
