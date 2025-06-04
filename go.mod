@@ -97,3 +97,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
+
+// Fix for invalid syntax in go.mod at old revision
+replace github.com/sagikazarmark/utilz v0.0.0-20180515183603-c488e427c90e => github.com/sagikazarmark/utilz v0.0.0-20191016080303-3ffcdad78fca
