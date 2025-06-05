@@ -2,9 +2,8 @@ package main
 
 import (
 	"errors"
-	"os
+	"os"
 	"strings"
-	"stringss"
 	"time"
 
 	"github.com/spf13/pflag"
