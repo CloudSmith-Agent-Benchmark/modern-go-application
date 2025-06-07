@@ -29,7 +29,7 @@ type configuration struct {
 	// OpenCensus configuration
 	Opencensus struct {
 		Exporter struct {
-			Enabled bool
+			Enabled
 
 			opencensus.ExporterConfig `mapstructure:",squash"`
 		}
